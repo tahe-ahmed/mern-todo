@@ -12,6 +12,6 @@
   - Get router to get allToDoItems. 
   - Pitch router for editToDos.
 
-The below diagram shows the big picture of the app and how the app different parts communicate with each other . Also, it points out the technologies I am planning to use in each part .
+The diagram below shows the big picture of the app and how the app different parts communicate with each other . Also, it points out the technologies I am planning to use in each part .
 
 ![planning diagram](todoappdiagram.png)
