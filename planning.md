@@ -9,8 +9,8 @@
   -  DB and server connection 
   - User, Todo DB models 
   - Post routers for login, register, addToDoItem .
-  - Get router for toDoGetAllItems. 
-  - Pitch router for editToDo.
+  - Get router to get allToDoItems. 
+  - Pitch router for editToDos.
 
 The below diagram shows the big picture of the app and how the app different parts communicate with each other . Also, it points out the technologies I am planning to use in each part .
 
