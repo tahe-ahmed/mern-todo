@@ -1,2 +1,2 @@
 ## Todo app planning : 
-![planning diagram](todo app diagram.png)
+![planning diagram](todoappdiagram.png)
