@@ -1,4 +1,3 @@
 [build]
-  base = "frontend"
   command = "yarn build"
   publish = "dist"
