@@ -23,12 +23,15 @@ export default function Login() {
         token: loginRes.data.token,
         user: loginRes.data.user,
       });
+
       localStorage.setItem("auth-token", loginRes.data.token);
+      localStorage.setItem("user", loginRes.data.user.name);
       history.push("/");
     } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
+      err.response && setError(err.response.data.msg);
     }
   };
+
   return (
     <div class="container">
       <div class="row">

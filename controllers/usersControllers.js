@@ -1,21 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const { validationResult } = require("express-validator");
 
 const register = async (req, res) => {
   let { email, password, confirmPassword, displayName } = req.body;
 
-  // validate
-  if (!email || !password || !confirmPassword || !displayName)
-    return res.status(400).json({ msg: "Not all fields have been entered." });
-  if (password.length < 5)
-    return res
-      .status(400)
-      .json({ msg: "The password needs to be at least 5 characters long." });
-  if (password !== confirmPassword)
-    return res
-      .status(400)
-      .json({ msg: "Enter the same password twice for verification." });
+  ////// validate the req.body inputs
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array()[0].msg });
+  }
 
   const existingUser = await User.findOne({ email: email });
   if (existingUser)
@@ -35,16 +30,19 @@ const register = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  // validate
-  if (!email || !password)
-    return res.status(400).json({ msg: "Not all fields have been entered." });
+  ////// validate the req.body inputs
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array()[0].msg });
+  }
+
   try {
     const user = await User.findOne({ email: email });
     if (!user)
@@ -65,7 +63,7 @@ const login = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -82,18 +80,23 @@ const isLoggedIn = async (req, res) => {
 
     return res.json(true);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
 const findUserById = async (req, res) => {
-  const user = await User.findById(req.user);
-  res.json({
-    name: user.name,
-    id: user._id,
-    email: user.email,
-  });
+  try {
+    const user = await User.findById(req.user);
+    res.json({
+      name: user.name,
+      id: user._id,
+      email: user.email,
+    });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
 };
+
 exports.register = register;
 exports.login = login;
 exports.isLoggedIn = isLoggedIn;

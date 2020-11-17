@@ -1,44 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
+import CustomDialogContent from "./Modal";
+import { CustomDialog } from "react-st-modal";
 
 function TodoForm(props) {
-  const [input, setInput] = useState(props.edit ? props.edit.value : "");
-
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    inputRef.current.focus();
-  });
-
-  const handleChange = (e) => {
-    setInput(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    props.onSubmit({
-      text: input,
-    });
-    setInput("");
-  };
-
   return (
     <div class="add-items d-flex">
-      <input
-        value={input}
-        ref={inputRef}
-        onChange={handleChange}
-        name="text"
-        type="text"
-        class="form-control todo-list-input"
-        placeholder="What do you need to do today?"
-      />
-      <button
-        onClick={handleSubmit}
-        class="add btn btn-primary font-weight-bold todo-list-add-btn"
-      >
-        {props.edit ? "update" : "add"}
-      </button>
+      {
+        <>
+          <button
+            type="button"
+            class="btn btn-primary btn-circle btn-xl"
+            onClick={async () => {
+              await CustomDialog(
+                <CustomDialogContent
+                  onSubmit={props.onSubmit}
+                  edit={props.edit}
+                />,
+                {
+                  title: "Add New Todo",
+                  showCloseIcon: true,
+                }
+              );
+            }}
+          >
+            <i class="fa fa-plus"></i>
+          </button>
+        </>
+      }
     </div>
   );
 }

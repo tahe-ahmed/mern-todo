@@ -10,12 +10,11 @@ export default function Home() {
   console.log(localStorage.getItem("auth-token"));
   useEffect(() => {
     if (!localStorage.getItem("auth-token")) history.push("/login");
-    console.log(userData);
   }, [userData, history]);
 
   return (
     <div className="todo-app">
-      <TodoList />
+      {userData && <TodoList userData={userData} />}
     </div>
   );
 }

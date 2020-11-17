@@ -15,8 +15,8 @@ export default function AuthOptions() {
       user: undefined,
     });
     localStorage.setItem("auth-token", "");
+    localStorage.setItem("user", "");
   };
-  console.log(userData, localStorage.getItem("auth-token"));
 
   return (
     <>
@@ -34,22 +34,26 @@ export default function AuthOptions() {
       <nav class="collapse navbar-collapse " id="navbarTogglerDemo01">
         {userData.user || localStorage.getItem("auth-token") ? (
           <ul class="navbar-nav ml-auto ">
-            <li class="nav-item">
-              <Link class="nav-link" onClick={logout}>
-                Log out{" "}
-              </Link>
-            </li>
+            <Link onClick={logout}>
+              <button type="button" class="btn btn-outline-primary">
+                Log out
+              </button>
+            </Link>
           </ul>
         ) : (
           <ul class="navbar-nav my-2 my-lg-0 ml-auto">
             <li class="nav-item">
-              <Link class="nav-link success" onClick={register}>
-                Sign Up
+              <Link onClick={register}>
+                <button type="button" class="btn btn-outline-primary">
+                  Sign Up
+                </button>
               </Link>
             </li>
             <li class="nav-item ">
-              <Link class="nav-link" onClick={login}>
-                Sign In
+              <Link onClick={login}>
+                <button type="button" class="btn btn-outline-primary">
+                  Log In
+                </button>
               </Link>
             </li>
           </ul>
