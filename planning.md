@@ -17,9 +17,8 @@
 #### Week two :
 - In this week I will be working on two or more features to add to the app and also enhance the UI styling
 - Features : 
-    - List Rearrangement. Reorder your Todo lists however you prefer!
     - Notes. Each task can have detailed notes.
-    - More Tags. You can categorize your tasks by topic (English, Physics, Shopping, Church, etc.) then select single or multiple tags to show only related items. Click English & Physics to show just school items.
+    - Editing , Each task can be edited its title and details .
     
 
 The diagram below shows the big picture of the app and how the app different parts communicate with each other . Also, it points out the technologies I am planning to use in each part .
