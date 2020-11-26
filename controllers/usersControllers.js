@@ -1,16 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-const { validationResult } = require("express-validator");
 
 const register = async (req, res) => {
   let { email, password, confirmPassword, displayName } = req.body;
 
-  ////// validate the req.body inputs
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ msg: errors.array()[0].msg });
-  }
 
   const existingUser = await User.findOne({ email: email });
   if (existingUser)
@@ -37,12 +31,6 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  ////// validate the req.body inputs
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ msg: errors.array()[0].msg });
-  }
-
   try {
     const user = await User.findOne({ email: email });
     if (!user)
@@ -51,7 +39,7 @@ const login = async (req, res) => {
         .json({ msg: "No account with this email has been registered." });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
+    if (!isMatch) return res.status(400).json({ msg: "Invalid Password credentials, please try again" });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.json({

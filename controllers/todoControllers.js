@@ -1,15 +1,8 @@
 const Todo = require("../models/todoModel");
-const { validationResult } = require("express-validator");
 
 const postNewTodo = async (req, res) => {
   try {
     const { title, content, isComplete } = req.body;
-
-    ////// validate the req.body inputs
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
-    }
 
     const newTodo = new Todo({
       title,
@@ -57,11 +50,6 @@ const updateTodoById = async (req, res) => {
 
     //// if there is no isComplete in the req.body then update just title and details
     if (!(req.body.isComplete != undefined)) {
-      ////// validate the req.body inputs
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ msg: errors.array()[0].msg });
-      }
 
       const updatedToDo = await Todo.findOneAndUpdate(
         { creator: req.user, _id: req.params.id },
