@@ -7,7 +7,6 @@ export default function Home() {
   const { userData } = useContext(UserContext);
   const history = useHistory();
 
-  console.log(localStorage.getItem("auth-token"));
   useEffect(() => {
     if (!localStorage.getItem("auth-token")) history.push("/login");
   }, [userData, history]);

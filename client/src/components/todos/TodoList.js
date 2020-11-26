@@ -14,7 +14,7 @@ const TodoList = (props) => {
     const fetchToDos = async () => {
       try {
         const fetchedToDos = await Axios.get(
-          "http://localhost:5000/todos/all",
+          "/todos/all",
           { headers: { "x-auth-token": token } }
         );
         setTodos(fetchedToDos.data);
@@ -28,14 +28,13 @@ const TodoList = (props) => {
   const addTodo = async (todo) => {
     try {
       const toaddtodo = await Axios.post(
-        "http://localhost:5000/todos",
+        "/todos",
         { title: todo.text, isComplete: false, content: todo.details },
         { headers: { "x-auth-token": token } }
       );
 
       ///// update the local state
       const newTodos = [toaddtodo.data, ...todos];
-      console.log(newTodos);
       setTodos(newTodos);
     } catch (err) {
       err.response && setError(err.response.data.msg);
@@ -45,7 +44,7 @@ const TodoList = (props) => {
   const updateTodo = async (todoId, newValue, details) => {
     try {
       const toupdateToDo = await Axios.patch(
-        `http://localhost:5000/todos/${todoId}`,
+        `/todos/${todoId}`,
         { title: newValue, content: details },
         { headers: { "x-auth-token": token } }
       );
@@ -61,7 +60,7 @@ const TodoList = (props) => {
 
   const removeTodo = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/todos/${id}`, {
+      await Axios.delete(`/todos/${id}`, {
         headers: { "x-auth-token": token },
       });
 
@@ -79,7 +78,7 @@ const TodoList = (props) => {
       let status = { isComplete: !myTodo.isComplete };
 
       const toUpdateIsComplete = await Axios.patch(
-        `http://localhost:5000/todos/${id}`,
+        `/todos/${id}`,
         status,
         { headers: { "x-auth-token": token } }
       );
