@@ -4,8 +4,13 @@
 }
 
 body {
-  background: #007bff;
-  background: linear-gradient(to right, #0062e6, #33aeff);
+  width: 100%;
+  min-height: 100vh;
+  background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 }
 
 .card-signin {
@@ -164,7 +169,7 @@ body {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid #d2d2dc;
-  border-radius: 0;
+  border-radius: 2rem;
 }
 
 .pr-3,
@@ -182,15 +187,16 @@ body {
 }
 
 .card .card-title {
-  color: #000000;
-  margin-bottom: 0.625rem;
-  text-transform: capitalize;
-  font-size: 0.875rem;
-  font-weight: 500;
+  color: rgba(0,0,0,.9);
+    margin-bottom: 0.625rem;
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .add-items {
   margin-bottom: 1.5rem;
+  margin-top: 0.6rem;
   overflow: hidden;
 }
 
@@ -221,7 +227,7 @@ body {
   background-color: #ffffff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 2px;
+  border-radius:1rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -606,4 +612,55 @@ input[type="checkbox"] {
   .navbar-dropdown
   .dropdown-item {
   display: flex !important;
+}
+.nav-item{
+  margin-right: 1rem;
+}
+@media (max-width: 991.98px) {
+  .nav-item{
+    margin-top: 0.6rem;
+  }
+}
+
+
+
+ /* rounded plus button */
+ .btn-circle.btn-xl {
+  width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1.33;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
+.custom-select{
+  width: 35%;
+}
+
+.todo-list-add-btn{
+  margin-left: 1rem;
+}
+
+.form-group{
+  margin-bottom: 0rem;
+}
+
+.Modal-module_modal__FqeFw {
+  padding: 1rem;
+
+}
+
+.Modal-module_modalTitle__1TtY9{
+  font-size: 1rem;
 }

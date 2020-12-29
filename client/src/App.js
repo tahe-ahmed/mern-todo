@@ -25,12 +25,12 @@ export default function App() {
         token = "";
       }
       const tokenRes = await Axios.get(
-        "http://localhost:5000/users/tokenIsValid",
+        "/users/tokenIsValid",
         null,
         { headers: { "x-auth-token": token } }
       );
       if (tokenRes.data) {
-        const userRes = await Axios.get("http://localhost:5000/users/", {
+        const userRes = await Axios.get("/users/", {
           headers: { "x-auth-token": token },
         });
         setUserData({
@@ -60,4 +60,3 @@ export default function App() {
     </>
   );
 }
-

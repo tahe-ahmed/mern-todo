@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -22,9 +23,6 @@ mongoose
   })
   .then(() => {
     console.log("Database is connected!");
-    app.listen(PORT, () =>
-      console.log(`The server has started on port: ${PORT}`)
-    );
   })
   .catch((err) => {
     console.log(err);
@@ -33,3 +31,13 @@ mongoose
 // set up routes
 app.use("/users", require("./routes/userRouters"));
 app.use("/todos", require("./routes/todoRouters"));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client", "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
+app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));

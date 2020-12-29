@@ -3,21 +3,23 @@ import TodoForm from "./TodoForm";
 import Todo from "./Todo";
 import Axios from "axios";
 
-const TodoList = () => {
+const TodoList = (props) => {
   const [todos, setTodos] = useState([]);
+  const [error, setError] = useState();
 
   let token = localStorage.getItem("auth-token");
+  let userName = localStorage.getItem("user");
 
   useEffect(() => {
     const fetchToDos = async () => {
       try {
         const fetchedToDos = await Axios.get(
-          "http://localhost:5000/todos/all",
+          "/todos/all",
           { headers: { "x-auth-token": token } }
         );
         setTodos(fetchedToDos.data);
       } catch (err) {
-        console.log(err.response.data.msg);
+        err.response && setError(err.response.data.msg);
       }
     };
     if (token) fetchToDos();
@@ -25,12 +27,9 @@ const TodoList = () => {
 
   const addTodo = async (todo) => {
     try {
-      if (!todo.text || /^\s*$/.test(todo.text)) {
-        return;
-      }
       const toaddtodo = await Axios.post(
-        "http://localhost:5000/todos",
-        { title: todo.text, isComplete: false },
+        "/todos",
+        { title: todo.text, isComplete: false, content: todo.details },
         { headers: { "x-auth-token": token } }
       );
 
@@ -38,40 +37,38 @@ const TodoList = () => {
       const newTodos = [toaddtodo.data, ...todos];
       setTodos(newTodos);
     } catch (err) {
-      console.log(err.response.data.msg);
+      err.response && setError(err.response.data.msg);
     }
   };
 
-  const updateTodo = async (todoId, newValue) => {
+  const updateTodo = async (todoId, newValue, details) => {
     try {
-      if (!newValue.text || /^\s*$/.test(newValue.text)) {
-        return;
-      }
       const toupdateToDo = await Axios.patch(
-        `http://localhost:5000/todos/${todoId}`,
-        { title: newValue.text },
+        `/todos/${todoId}`,
+        { title: newValue, content: details },
         { headers: { "x-auth-token": token } }
       );
+      console.log(toupdateToDo);
 
       setTodos((prev) =>
         prev.map((item) => (item._id === todoId ? toupdateToDo.data : item))
       );
-    } catch {
-      ///handle errors
+    } catch (err) {
+      err.response && setError(err.response.data.msg);
     }
   };
 
   const removeTodo = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/todos/${id}`, {
+      await Axios.delete(`/todos/${id}`, {
         headers: { "x-auth-token": token },
       });
 
       ///update local state
       const removedArr = [...todos].filter((todo) => todo._id !== id);
       setTodos(removedArr);
-    } catch {
-      ///handle errors
+    } catch (err) {
+      err.response && setError(err.response.data.msg);
     }
   };
 
@@ -81,11 +78,10 @@ const TodoList = () => {
       let status = { isComplete: !myTodo.isComplete };
 
       const toUpdateIsComplete = await Axios.patch(
-        `http://localhost:5000/todos/${id}`,
+        `/todos/${id}`,
         status,
         { headers: { "x-auth-token": token } }
       );
-      console.log(toUpdateIsComplete);
       let updatedTodos = todos.map((todo) => {
         if (todo._id === toUpdateIsComplete.data._id) {
           todo.isComplete = toUpdateIsComplete.data.isComplete;
@@ -93,7 +89,9 @@ const TodoList = () => {
         return todo;
       });
       setTodos(updatedTodos);
-    } catch {}
+    } catch (err) {
+      err.response && setError(err.response.data.msg);
+    }
   };
 
   return (
@@ -104,8 +102,20 @@ const TodoList = () => {
             <div class="col-md-12">
               <div class="card px-3">
                 <div class="card-body">
-                  <h4 class="card-title">Awesome Todo list</h4>
-                  <TodoForm onSubmit={addTodo} />
+                  <h2 class="card-title">Welcome {userName}</h2>
+                  {error && (
+                    <div class="alert alert-danger alert-dismissible fade show">
+                      <strong>Error !</strong> {error}
+                      <button
+                        onClick={() => setError(undefined)}
+                        type="button"
+                        class="close"
+                        data-dismiss="alert"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
                   {todos && (
                     <Todo
                       todos={todos}
@@ -114,6 +124,7 @@ const TodoList = () => {
                       updateTodo={updateTodo}
                     />
                   )}
+                  <TodoForm onSubmit={addTodo} />
                 </div>
               </div>
             </div>

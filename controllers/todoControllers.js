@@ -4,10 +4,6 @@ const postNewTodo = async (req, res) => {
   try {
     const { title, content, isComplete } = req.body;
 
-    if (!title)
-      return res.status(400).json({ msg: "Todo must at least have a title." });
-    //// note the user is not coming from the body request , it comes from the auth middleware
-
     const newTodo = new Todo({
       title,
       creator: req.user,
@@ -17,7 +13,7 @@ const postNewTodo = async (req, res) => {
     const savedTodo = await newTodo.save();
     res.status(200).json(savedTodo);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -26,7 +22,7 @@ const getAlltodosByCreator = async (req, res) => {
     const todos = await Todo.find({ creator: req.user });
     res.status(200).json(todos);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -40,7 +36,7 @@ const deleteTodoById = async (req, res) => {
     const deletedToDo = await Todo.findByIdAndDelete(req.params.id);
     res.status(200).json(deletedToDo);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
@@ -51,16 +47,21 @@ const updateTodoById = async (req, res) => {
       return res.status(400).json({
         msg: "No todo item found for this todo id belongs to the current user ",
       });
-    if (req.body.title) {
+
+    //// if there is no isComplete in the req.body then update just title and details
+    if (!(req.body.isComplete != undefined)) {
+
       const updatedToDo = await Todo.findOneAndUpdate(
         { creator: req.user, _id: req.params.id },
-        { title: req.body.title },
+        { title: req.body.title, content: req.body.content },
         {
           new: true,
         }
       );
       res.status(200).json(updatedToDo);
     }
+
+    //// if there is isComplete in the req.body then update just title and details
     if (req.body.isComplete != undefined) {
       const updatedToDo = await Todo.findOneAndUpdate(
         { creator: req.user, _id: req.params.id },
@@ -74,7 +75,7 @@ const updateTodoById = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 

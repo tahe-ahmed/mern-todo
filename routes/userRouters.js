@@ -1,11 +1,16 @@
 const router = require("express").Router();
 
-const usersControllers = require('../controllers/usersControllers');
-const authControllers = require('../controllers/authControllers')
+const usersControllers = require("../controllers/usersControllers");
+const authControllers = require("../controllers/authControllers");
 
-router.post("/register", usersControllers.register);
+const {
+  userRegisValidation,
+  userLoginValidation,
+} = require("../validation/validation_schema");
 
-router.post("/login", usersControllers.login);
+router.post("/register", userRegisValidation, usersControllers.register);
+
+router.post("/login", userLoginValidation, usersControllers.login);
 
 router.post("/tokenIsValid", usersControllers.isLoggedIn);
 
