@@ -7,7 +7,7 @@
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [What is New ?](#What-is-New-?)
+* [Learning enhancement](#learning-enhancement)
 * [Contact](#contact)
 
 ## General info
@@ -41,7 +41,7 @@ To clone and run the project in your local, you need to follow these steps :
 	# Second terminal 
 	$ cd client ; npm install ; npm start
  
-## What is New ? 
+## Learning enhancement
 In this application , I used Json Web Token (JWT) for authentication and authorization and to secure and authenticate the exchange data process between client and server . Also ,  I created a validation folder and shared it to both client and server using **Joi** to ensure both server and client validation as well. 
 
 
