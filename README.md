@@ -7,7 +7,7 @@
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [What is New ?](#What is New ?)
+* [What is New ?](#What-is-New-?)
 * [Contact](#contact)
 
 ## General info
